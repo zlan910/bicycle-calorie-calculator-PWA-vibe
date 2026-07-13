@@ -21,6 +21,10 @@ Alternatively, run `npx serve .`, then open the displayed URL in Chrome. On Andr
 npm test
 ```
 
+## Releases
+
+The offline cache uses the `APP_VERSION` in `service-worker.js`. Bump the minor version for each release (`0.2` → `0.3`); bump the major version only for an intentional major release (`0.9` → `1.0`).
+
 ## License
 
 GPL-2.0-or-later. This repository retains the original GPLv2 text in `COPYING.txt`; preserve the copyright notices and complete source when distributing the app.
