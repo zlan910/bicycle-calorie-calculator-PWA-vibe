@@ -22,3 +22,7 @@ npm test
 ## License
 
 GPL-2.0-or-later. This repository retains the original GPLv2 text in `COPYING.txt`; preserve the copyright notices and complete source when distributing the app.
+
+### Icon attribution
+
+The bicycle and flame paths in `icons/bicycle.svg` are adapted from [Lucide Icons](https://lucide.dev/), licensed under the ISC License. A copy of that license is included in `icons/LICENSE-lucide.txt`.
