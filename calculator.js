@@ -50,11 +50,12 @@ export function calculateRide({
   const averageSpeed = distance / (durationMinutes / 60);
   const base = baseline(averageSpeed, weight);
   let modifiedBase = base - ((weight - 154) / 200) * base;
-  let terrainAdjustment = (climbingPercent / 1000) * modifiedBase;
+  const terrainAdjustment = (climbingPercent / 1000) * modifiedBase;
+  modifiedBase += terrainAdjustment;
 
   if (course === "point-to-point") {
-    terrainAdjustment += (weight * elevationGain * 0.0014) / durationMinutes;
-    modifiedBase += terrainAdjustment;
+    const elevationAdjustment = (weight * elevationGain * 0.0014) / durationMinutes;
+    modifiedBase += elevationAdjustment;
 
     const directionMultiplier = {
       head: 1,
@@ -82,11 +83,15 @@ export function calculateRide({
   modifiedBase -= (draftingPercent / 100) * (averageSpeed / 100);
   const totalCalories = modifiedBase * durationMinutes;
   const ridingCalories = (modifiedBase - weight * 0.01) * durationMinutes;
+  const warnings = averageSpeed < 5 || averageSpeed > 30
+    ? ["This formula is most reliable for average speeds between 5 and 30 mi/h."]
+    : [];
 
   return Object.freeze({
     averageSpeed,
     totalCalories,
     ridingCalories,
     naturalCalories: totalCalories - ridingCalories,
+    warnings: Object.freeze(warnings),
   });
 }

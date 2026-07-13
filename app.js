@@ -5,6 +5,7 @@ const courseInputs = document.querySelectorAll('input[name="course"]');
 const unitInputs = document.querySelectorAll('input[name="units"]');
 const optionalPointToPoint = document.querySelectorAll("[data-point-to-point]");
 const error = document.querySelector("#error");
+const warning = document.querySelector("#warning");
 const results = document.querySelector("#results");
 let units = "imperial";
 
@@ -49,6 +50,7 @@ function convertUnits(nextUnits) {
   updateUnitLabels();
   results.hidden = true;
   error.hidden = true;
+  warning.hidden = true;
 }
 
 function format(value, digits = 1) {
@@ -81,11 +83,14 @@ form.addEventListener("submit", (event) => {
     document.querySelector("#average-speed").textContent = `${format(stats.averageSpeed / factor.distance)} ${factor.distanceLabel}/h`;
     document.querySelector("#total-calories").textContent = `${format(stats.totalCalories, 0)} kcal`;
     document.querySelector("#riding-calories").textContent = `${format(stats.ridingCalories, 0)} kcal`;
+    warning.textContent = stats.warnings.join(" ");
+    warning.hidden = stats.warnings.length === 0;
     results.hidden = false;
     results.scrollIntoView({ behavior: "smooth", block: "nearest" });
   } catch (problem) {
     error.textContent = problem.message;
     error.hidden = false;
+    warning.hidden = true;
     results.hidden = true;
   }
 });
