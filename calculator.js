@@ -50,12 +50,10 @@ export function calculateRide({
   const averageSpeed = distance / (durationMinutes / 60);
   const base = baseline(averageSpeed, weight);
   let modifiedBase = base - ((weight - 154) / 200) * base;
-  const terrainAdjustment = (climbingPercent / 1000) * modifiedBase;
-  modifiedBase += terrainAdjustment;
-
   if (course === "point-to-point") {
+    const terrainAdjustment = (climbingPercent / 1000) * modifiedBase;
     const elevationAdjustment = (weight * elevationGain * 0.0014) / durationMinutes;
-    modifiedBase += elevationAdjustment;
+    modifiedBase += terrainAdjustment + elevationAdjustment;
 
     const directionMultiplier = {
       head: 1,

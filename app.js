@@ -16,6 +16,11 @@ function numberFrom(name) {
 
 function setCourseFields() {
   const pointToPoint = form.elements.course.value === "point-to-point";
+  if (!pointToPoint) {
+    ["windSpeed", "elevationGain", "climbingPercent"].forEach((name) => {
+      form.elements[name].value = "0";
+    });
+  }
   optionalPointToPoint.forEach((element) => {
     element.disabled = !pointToPoint;
     element.closest(".field")?.classList.toggle("is-disabled", !pointToPoint);

@@ -2,18 +2,20 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { calculateRide, UNIT_FACTORS } from "../calculator.js";
 
-test("applies climbing adjustment to loop courses", () => {
-  const result = calculateRide({ distance: 20, hours: 1, weight: 165, climbingPercent: 10 });
-  const flatResult = calculateRide({ distance: 20, hours: 1, weight: 165 });
+test("ignores uphill time for loop courses", () => {
+  const result = calculateRide({ distance: 20, hours: 1, weight: 165, course: "loop", climbingPercent: 10 });
+  const flatResult = calculateRide({ distance: 20, hours: 1, weight: 165, course: "loop" });
   assert.equal(result.averageSpeed, 20);
-  assert.ok(result.totalCalories > flatResult.totalCalories);
+  assert.equal(result.totalCalories, flatResult.totalCalories);
 });
 
 test("applies point-to-point elevation and wind adjustments", () => {
   for (const windDirection of ["head", "cross-head", "cross-tail", "tail"]) {
     const result = calculateRide({ distance: 30, hours: 2, weight: 165, course: "point-to-point", windSpeed: 10, windDirection, elevationGain: 800, climbingPercent: 12, ridingPosition: "non-aero" });
+    const flatResult = calculateRide({ distance: 30, hours: 2, weight: 165, course: "point-to-point", windSpeed: 10, windDirection, elevationGain: 800, climbingPercent: 0, ridingPosition: "non-aero" });
     assert.ok(Number.isFinite(result.totalCalories));
     assert.ok(Number.isFinite(result.ridingCalories));
+    assert.ok(result.totalCalories > flatResult.totalCalories);
   }
 });
 
