@@ -1,0 +1,6 @@
+{
+  "name": "bicycle-calorie-calculator-pwa",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test" }
+}
