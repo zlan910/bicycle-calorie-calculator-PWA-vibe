@@ -8,6 +8,7 @@ const error = document.querySelector("#error");
 const warning = document.querySelector("#warning");
 const results = document.querySelector("#results");
 let units = "imperial";
+document.querySelector("#app-version").textContent = "Version " + globalThis.APP_VERSION;
 
 function numberFrom(name) {
   const value = form.elements[name].value.trim();
