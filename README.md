@@ -2,6 +2,8 @@
 
 An offline-first, installable Progressive Web App port of the 1997 Bicycle Ride Calorie Calculator by Greg Kondrasuk. The calculation logic in `calculator.js` is a direct JavaScript translation of the legacy calculator engine.
 
+Hosted on Github here: https://zlan910.github.io/bicycle-calorie-calculator-PWA-vibe/
+
 ## Run locally
 
 On Windows, right-click `start.ps1` and choose **Run with PowerShell**, or run:
