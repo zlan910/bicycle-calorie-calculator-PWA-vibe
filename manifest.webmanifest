@@ -1,0 +1,11 @@
+{
+  "name": "Bicycle Calorie Calculator",
+  "short_name": "Bike Calories",
+  "description": "An offline bicycle ride calorie calculator.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef4ef",
+  "theme_color": "#0e5a3d",
+  "icons": [{ "src": "./icons/bicycle.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
