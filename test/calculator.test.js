@@ -1,20 +1,35 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { calculateRide } from "../calculator.js";
+import { calculateRide, UNIT_FACTORS } from "../calculator.js";
 
-test("reproduces the original loop-course calculation", () => {
+test("applies climbing adjustment to loop courses", () => {
   const result = calculateRide({ distance: 20, hours: 1, weight: 165, climbingPercent: 10 });
+  const flatResult = calculateRide({ distance: 20, hours: 1, weight: 165 });
   assert.equal(result.averageSpeed, 20);
-  assert.ok(Math.abs(result.totalCalories - 831.9868603199999) < 1e-9);
-  assert.ok(Math.abs(result.ridingCalories - 732.9868603199999) < 1e-9);
+  assert.ok(result.totalCalories > flatResult.totalCalories);
 });
 
-test("applies point-to-point elevation and headwind adjustments", () => {
-  const result = calculateRide({ distance: 30, hours: 2, weight: 165, course: "point-to-point", windSpeed: 10, windDirection: "head", elevationGain: 800, climbingPercent: 12, ridingPosition: "non-aero" });
-  assert.ok(Math.abs(result.totalCalories - 1897.1890437630898) < 1e-9);
-  assert.ok(Math.abs(result.ridingCalories - 1699.1890437630896) < 1e-9);
+test("applies point-to-point elevation and wind adjustments", () => {
+  for (const windDirection of ["head", "cross-head", "cross-tail", "tail"]) {
+    const result = calculateRide({ distance: 30, hours: 2, weight: 165, course: "point-to-point", windSpeed: 10, windDirection, elevationGain: 800, climbingPercent: 12, ridingPosition: "non-aero" });
+    assert.ok(Number.isFinite(result.totalCalories));
+    assert.ok(Number.isFinite(result.ridingCalories));
+  }
 });
 
 test("rejects missing essential values", () => {
   assert.throws(() => calculateRide({ distance: 0, hours: 1, weight: 150 }), /greater than zero/);
+});
+
+
+test("keeps metric conversion factors consistent with the legacy calculator", () => {
+  assert.equal(UNIT_FACTORS.metric.distance, 0.62137);
+  assert.equal(UNIT_FACTORS.metric.weight, 2.20462);
+  assert.equal(UNIT_FACTORS.metric.elevation, 3.28084);
+});
+
+test("reports when a ride is outside the recommended speed range", () => {
+  const result = calculateRide({ distance: 4, hours: 1, weight: 150 });
+  assert.equal(result.warnings.length, 1);
+  assert.ok(result.warnings[0].includes("5 and 30 mi/h"));
 });

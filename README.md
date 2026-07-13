@@ -25,4 +25,4 @@ GPL-2.0-or-later. This repository retains the original GPLv2 text in `COPYING.tx
 
 ### Icon attribution
 
-The bicycle and flame paths in `icons/bicycle.svg` are adapted from [Lucide Icons](https://lucide.dev/), licensed under the ISC License. A copy of that license is included in `icons/LICENSE-lucide.txt`.
+The bicycle and flame paths in `icons/bicycle_cals.svg` are adapted from [Lucide Icons](https://lucide.dev/), licensed under the ISC License. A copy of that license is included in `icons/LICENSE-lucide.txt`.
